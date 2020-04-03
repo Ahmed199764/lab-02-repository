@@ -58,10 +58,10 @@ option{
 
 @keyframes glow {
   from {
-    box-shadow: 0 0 10px -10px darkred;
+    box-shadow: 0 0 2px -2px darkred;
   }
   to {
-    box-shadow: 0 0 10px 10px darkred;
+    box-shadow: 0 0 2px 2px darkred;
   }
 }
 
