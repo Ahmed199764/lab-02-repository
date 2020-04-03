@@ -1,67 +1,113 @@
-'use-strict';
+'use strict';
 
 
-let myKeywords = ['all'];
+const pageOne = 'data/page-1.json';
+const pageTwo = 'data/page-2.json';
 
-function Img(image_url, title, description, keyword, horns) {
-  this.image_url = image_url;
-  this.title = title;
-  this.description = description;
-  this.keyword = keyword;
-  this.horns = horns;
-  Gallary.push(this);
+let GalleryArray = [];
+
+function Animal(obj) {
+  for(let key in obj){
+    this[key] = obj[key];
+  }
 }
-let Gallary = [];
+
+Animal.prototype.toHtml = function() {
+  let temple = $('#photo-template').html();
+  let template = Handlebars.compile(temple);
+  return template(this);
+};
+
+Animal.prototype.toDropdown = function() {
+  let temple = $('#list').html();
+  let template = Handlebars.compile(temple);
+  return template(this);
+};
 
 
-$.get('./data/page-1.json').done(data => {
-  data.forEach(element => {
-    new Img(element.image_url, element.title, element.description, element.keyword, element.horns);
+const readJson = (pageNumber) => {
+
+  GalleryArray = [];
+  $.get(pageNumber)
+    .then(Data => {
+      Data.forEach(animal => {
+        GalleryArray.push(new Animal(animal));
+      });
+    })
+    .then(titleSort);
+};
+
+
+const loadAnimals = () => {
+  GalleryArray.forEach(animal => {
+
+    $('main').append(animal.toHtml());
   });
-  //creates a new section for each image to be more specific in CSS 
-  Gallary.forEach((img) => {
-    let myTemple = $('section');
-    let clone = myTemple.clone();
+  dropDrown();
+};
 
-    clone.attr('id', `${img.keyword}`);
-    clone.attr('class', 'all');
-    clone.children('h2').text(img.title);
-    clone.children('img').attr('src', `${img.image_url}`);
-    clone.children('img').attr('alt', `${img.title}`);
-    clone.children('p').text(img.description);
-    $('main').append(clone[0]);
-    
-    //Inserting each keyword to the list
-    if(!myKeywords.includes(img.keyword)) {
-      myKeywords.push(img.keyword);
-    }
-  });
-
-  //creates a select option for each keyword from the list
-  myKeywords.forEach((keyword) => {
-    let myTemple = $('option');
-    let clone = myTemple.clone();
-    clone.attr('value', keyword);
-    clone.text(keyword);
-    $('select').append(clone[0]);
-  });
-
-  //handles option selection event
-  $('select').change((e) => {
-    $('section').each(function() {
-      $(this).show();
-      // hide the not selected items
-      if( $(this).attr('id') !== e.target.value) {
-        $(this).hide();
-      }
-      // here to show each list output when selected
-      if ( $(this).attr === e.target.value ) {
-        $(this).toggle();
-      }
-      if ( $(this).attr('class') === e.target.value) {
-        $(this).toggle();
+const dropDrown = () => {
+  GalleryArray.forEach(animal => {
+    let ready = false;
+    $('#selector option').each(function(){
+      if(this.value === animal.keyword){
+        ready = true;
       }
     });
+    if(ready === false){
+      $('select').append(animal.toDropdown());
+    }
   });
-});
+};
 
+let gallerySelector = (event) => {
+  $('section').hide();
+  let img = $(`img[value="${event.target.value}"]`).parent();
+  $(img).show();
+};
+
+$('#selector').on('change', gallerySelector);
+
+let pageOneSelector = () => {
+  $('section').remove();
+  readJson(pageOne);
+};
+let pageTwoSelector = () => {
+  $('section').remove();
+  readJson(pageTwo);
+};
+
+let titleSort = () => {
+  GalleryArray.forEach( () => {
+    GalleryArray.sort( (a,b) => {
+      if(a.title < b.title){
+        return -1;
+      }
+      if(a.title > b.title){
+        return 1;
+      }
+      return 0;
+    });
+    return GalleryArray;
+  });
+  $('section').remove();
+  loadAnimals();
+};
+
+let hornSort = () => {
+  GalleryArray.forEach( () => {
+    GalleryArray.sort( (a,b) => {
+      return a.horns - b.horns;
+    });
+    return GalleryArray;
+  });
+  $('section').remove();
+  loadAnimals();
+};
+
+$('#pageOne').on('click', pageOneSelector);
+$('#pageTwo').on('click', pageTwoSelector);
+
+$('#title').on('click', titleSort);
+$('#horns').on('click', hornSort);
+$(() => readJson(pageOne));
