@@ -1,22 +1,75 @@
-header h1{
-    margin: 20px;
-    margin-left: 27%;
+input {
+    width: 10.248901903367496vw;
+    height: 6.0882800608828vh;
+    background-color: darkred;
+    font-size: 1rem;
+    border-radius: 30%;
+    font-family: 'Flavors', cursive;
+    background-color: rgb(65, 15, 15);
+    color:red;
+    border: 4px solid rgba(170, 7, 7, 0.658);
+    margin-bottom: 20px;
+    animation: glow 1s infinite alternate;
+  }
+  
+  nav {
+    text-align: center;
+    background-color: rgb(65, 15, 15);
+    padding: 20px;
+    margin-top: 3.0441400304414vh;
+    width: 60%;
+    margin-left: 20%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    border: 4px solid rgba(170, 7, 7, 0.658);
+    animation: glow 1s infinite alternate;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    background-color: rgb(65, 15, 15);
+    border-radius: 30px;
+    width: 100%;
+    border: 4px solid rgba(170, 7, 7, 0.658);
+    color : rgb(235, 17, 17);
+    position: fixed;
+    margin-left: auto;
+    letter-spacing:  0.7320644216691069vw;
+    margin-top: -20px;
+    animation: glow 1s infinite alternate;
+  }
+
+  select{
+    font-size: large;
+    font-family: 'Flavors', cursive;
+    background-color: rgb(65, 15, 15);
+    color:red;
+    width: 12.445095168374817vw;
+    height: 7.610350076103501vh;
+    border: 4px solid rgba(170, 7, 7, 0.658);
+    animation: glow 1s infinite alternate;
 }
 
-section h2 {
-    margin: 10px;
-    margin-left: 30px;
+option{
+    font-size:1rem;
+    border: 3px solid red;
+    animation: glow 1s infinite alternate;
 }
 
-section p {
-    margin: 10px;
-    margin-left: 30px;
+@keyframes glow {
+  from {
+    box-shadow: 0 0 10px -10px darkred;
+  }
+  to {
+    box-shadow: 0 0 10px 10px darkred;
+  }
 }
 
-.all{
-    margin: 30px;
-}
-
-footer{
-    clear: both;
+@keyframes glow1 {
+  from {
+    box-shadow: 0 0 10px -10px pink;
+  }
+  to {
+    box-shadow: 0 0 10px 10px pink;
+  }
 }
