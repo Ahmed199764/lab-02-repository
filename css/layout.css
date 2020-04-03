@@ -1,5 +1,5 @@
 input {
-    width: 10.248901903367496vw;
+    width: 15%;
     height: 6.0882800608828vh;
     background-color: darkred;
     font-size: 1rem;
@@ -40,7 +40,7 @@ input {
   }
 
   select{
-    font-size: large;
+    font-size: 1rem;
     font-family: 'Flavors', cursive;
     background-color: rgb(65, 15, 15);
     color:red;
